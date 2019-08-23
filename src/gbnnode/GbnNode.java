@@ -61,8 +61,10 @@ public class GbnNode {
     }
 
     public static void shell(BlockingQueue<Character> queue) {
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            var input = System.console().readLine("node> ");
+            System.out.print("node> ");
+            var input = scanner.nextLine();
             String[] parsed = input.split("\\s+");
             if (parsed.length != 2 || !parsed[0].equals("send") || parsed[1].length() != 1) {
                 System.out.println("command format: send <char>");
