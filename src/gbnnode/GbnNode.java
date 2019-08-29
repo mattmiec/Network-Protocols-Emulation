@@ -54,6 +54,7 @@ public class GbnNode {
         // setup and start sender
         Sender sender;
         sender = new Sender(ackQueue, socket, windowSize, peerPort);
+        sender.start();
 
         Scanner scanner = new Scanner(System.in);
         while (true) {

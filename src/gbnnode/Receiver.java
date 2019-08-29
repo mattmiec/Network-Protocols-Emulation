@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 
 public class Receiver extends Thread {
@@ -16,9 +17,13 @@ public class Receiver extends Thread {
     private int windowSize;
     private boolean isDeterministic;
     private int n;
+    private int ni = 0;
     private double p;
     private int expectedSeqNum;
+    private int totalPackets = 0;
+    private int totalDropped = 0;
 
+    private static Random random = new Random();
 
     public void run() {
         while (true) {
@@ -38,7 +43,22 @@ public class Receiver extends Thread {
             if (gbnPacket.getIsAck()) {
                 // if this is an ack put it in ackQueue
                 try {
-                    this.ackQueue.put(gbnPacket.getSequenceNum());
+                    if (this.isDeterministic) {
+                        ni++;
+                        if (ni % n == 0) {
+                            this.ackQueue.put(-1);
+                        } else {
+                            this.ackQueue.put(gbnPacket.getSequenceNum());
+                        }
+                    }
+                    else {
+                        if (random.nextDouble() < p) {
+                            this.ackQueue.put(-1);
+                        } else {
+                            this.ackQueue.put(gbnPacket.getSequenceNum());
+                        }
+                    }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -49,10 +69,23 @@ public class Receiver extends Thread {
                 }
                 if (gbnPacket.getSequenceNum() == -1) {
                     endTransmission();
-                    expectedSeqNum = 0;
                     continue;
                 }
-                if (gbnPacket.getSequenceNum() != expectedSeqNum) {
+                this.totalPackets++;
+                ni++;
+                if (this.isDeterministic) {
+                    if (ni % n == 0) {
+                        this.totalDropped++;
+                        continue;
+                    }
+                }
+                else {
+                    if (random.nextDouble() < p) {
+                        this.totalDropped++;
+                        continue;
+                    }
+                }
+                if (gbnPacket.getSequenceNum() != this.expectedSeqNum) {
                     System.out.println(String.format(
                             "[%s] packet%d %c discarded",
                             Calendar.getInstance().getTime(),
@@ -70,7 +103,7 @@ public class Receiver extends Thread {
                 var ackPacketSerialized = ackPacket.serialize();
                 udpPacket = new DatagramPacket(ackPacketSerialized, ackPacketSerialized.length, udpPacket.getAddress(), udpPacket.getPort());
                 try {
-                    socket.send(udpPacket);
+                    this.socket.send(udpPacket);
                     System.out.println(String.format(
                             "[%s] ACK%d sent, expecting packet %d",
                             Calendar.getInstance().getTime(),
@@ -79,14 +112,17 @@ public class Receiver extends Thread {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ++expectedSeqNum;
+                ++this.expectedSeqNum;
             }
 
         }
     }
 
     private void endTransmission() {
-        System.out.println("[Summary] ...");
+        System.out.println(String.format("[Summary] %d/%d packets discarded, loss rate = %f%%", totalDropped, totalPackets, (float)totalDropped/(float)totalPackets));
+        this.expectedSeqNum = 0;
+        this.totalDropped = 0;
+        this.totalPackets = 0;
     }
 
 
