@@ -52,14 +52,9 @@ public class GbnNode {
         receiver.start();
 
         // setup and start sender
-        var senderQueue = new ArrayBlockingQueue<String>(256);
-        Sender sender = new Sender(senderQueue, ackQueue, socket, windowSize, peerPort);
-        sender.start();
+        Sender sender;
+        sender = new Sender(ackQueue, socket, windowSize, peerPort);
 
-        shell(senderQueue);
-    }
-
-    public static void shell(BlockingQueue<String> queue) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print("node> ");
@@ -69,11 +64,7 @@ public class GbnNode {
                 System.out.println("command format: send <char>");
                 continue;
             }
-            try {
-                queue.put(parsed[1]);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sender.send(parsed[1]);
         }
     }
 

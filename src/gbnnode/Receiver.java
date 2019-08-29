@@ -17,6 +17,7 @@ public class Receiver extends Thread {
     private boolean isDeterministic;
     private int n;
     private double p;
+    private int expectedSeqNum;
 
 
     public void run() {
@@ -46,6 +47,19 @@ public class Receiver extends Thread {
                 if (gbnPacket.getSequenceNum() == 0) {
                     System.out.println(); // print newline if receiving new message
                 }
+                if (gbnPacket.getSequenceNum() == -1) {
+                    endTransmission();
+                    expectedSeqNum = 0;
+                    continue;
+                }
+                if (gbnPacket.getSequenceNum() != expectedSeqNum) {
+                    System.out.println(String.format(
+                            "[%s] packet%d %c discarded",
+                            Calendar.getInstance().getTime(),
+                            gbnPacket.getSequenceNum(),
+                            (char)gbnPacket.getDataByte()));
+                    continue;
+                }
                 System.out.println(String.format(
                         "[%s] packet%d %c received",
                         Calendar.getInstance().getTime(),
@@ -65,10 +79,16 @@ public class Receiver extends Thread {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                ++expectedSeqNum;
             }
 
         }
     }
+
+    private void endTransmission() {
+        System.out.println("[Summary] ...");
+    }
+
 
     Receiver(BlockingQueue<Integer> ackQueue, DatagramSocket socket, int windowSize, int n) {
         this.ackQueue = ackQueue;
