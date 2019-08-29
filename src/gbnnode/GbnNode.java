@@ -42,18 +42,18 @@ public class GbnNode {
         }
 
         // setup and start receiver
-        var ackQueue = new ArrayBlockingQueue<int>(256);
+        var ackQueue = new ArrayBlockingQueue<Integer>(256);
         Receiver receiver;
         if (isDeterministic) {
-            receiver = new Receiver(socket, windowSize, n);
+            receiver = new Receiver(ackQueue, socket, windowSize, n);
         } else {
-            receiver = new Receiver(socket, windowSize, p);
+            receiver = new Receiver(ackQueue, socket, windowSize, p);
         }
         receiver.start();
 
         // setup and start sender
         var senderQueue = new ArrayBlockingQueue<String>(256);
-        Sender sender = new Sender(senderQueue, socket, windowSize, peerPort);
+        Sender sender = new Sender(senderQueue, ackQueue, socket, windowSize, peerPort);
         sender.start();
 
         shell(senderQueue);

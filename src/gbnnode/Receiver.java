@@ -3,16 +3,13 @@ package gbnnode;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.concurrent.BlockingQueue;
 
 public class Receiver extends Thread {
 
     // packet is an int sequence number plus a single byte of data
-    private final int packetLength = 1024;
+    private final int maxPacketLength = 1024;
 
     private BlockingQueue<Integer> ackQueue;
     private DatagramSocket socket;
@@ -25,7 +22,7 @@ public class Receiver extends Thread {
     public void run() {
         while (true) {
             // listen for packet
-            var udpPacket = new DatagramPacket(new byte[packetLength], packetLength);
+            var udpPacket = new DatagramPacket(new byte[maxPacketLength], maxPacketLength);
             try {
                 socket.receive(udpPacket);
             } catch (IOException e) {
@@ -46,13 +43,25 @@ public class Receiver extends Thread {
                 }
             } else {
                 // otherwise print output data
-                System.out.println((char)gbnPacket.getDataByte());
+                if (gbnPacket.getSequenceNum() == 0) {
+                    System.out.println(); // print newline if receiving new message
+                }
+                System.out.println(String.format(
+                        "[%s] packet%d %c received",
+                        Calendar.getInstance().getTime(),
+                        gbnPacket.getSequenceNum(),
+                        (char)gbnPacket.getDataByte()));
                 // then send ack
                 var ackPacket = Packet.createAck(gbnPacket.getSequenceNum());
                 var ackPacketSerialized = ackPacket.serialize();
                 udpPacket = new DatagramPacket(ackPacketSerialized, ackPacketSerialized.length, udpPacket.getAddress(), udpPacket.getPort());
                 try {
                     socket.send(udpPacket);
+                    System.out.println(String.format(
+                            "[%s] ACK%d sent, expecting packet %d",
+                            Calendar.getInstance().getTime(),
+                            gbnPacket.getSequenceNum(),
+                            gbnPacket.getSequenceNum() + 1));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

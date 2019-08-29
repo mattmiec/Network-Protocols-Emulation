@@ -38,7 +38,7 @@ public class Packet {
     }
 
     public static Packet createDataPacket(int sequenceNum, byte c) {
-        return new Packet(sequenceNum, true, c);
+        return new Packet(sequenceNum, false, c);
     }
 
     // deserialization
