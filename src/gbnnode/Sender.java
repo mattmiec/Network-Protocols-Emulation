@@ -32,7 +32,7 @@ public class Sender extends Thread {
     public void run() {
         while(true) {
             try {
-                var ackNum = ackQueue.take();
+                int ackNum = ackQueue.take();
                 totalPackets++;
                 if (ackNum == -1) {
                     totalDropped++;
@@ -108,9 +108,9 @@ public class Sender extends Thread {
     }
 
     private void sendByte(byte b, int sequenceNum) {
-        var packetBytes = (Packet.createDataPacket(sequenceNum, b)).serialize();
+        byte[] packetBytes = (Packet.createDataPacket(sequenceNum, b)).serialize();
         try {
-            var udpPacket = new DatagramPacket(packetBytes, packetBytes.length, InetAddress.getByName("127.0.0.1"), this.peerPort);
+            DatagramPacket udpPacket = new DatagramPacket(packetBytes, packetBytes.length, InetAddress.getByName("127.0.0.1"), this.peerPort);
             this.socket.send(udpPacket);
         } catch (IOException e) {
             e.printStackTrace();

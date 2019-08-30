@@ -1,5 +1,6 @@
 package gbnnode;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -28,7 +29,7 @@ public class Receiver extends Thread {
     public void run() {
         while (true) {
             // listen for packet
-            var udpPacket = new DatagramPacket(new byte[maxPacketLength], maxPacketLength);
+            DatagramPacket udpPacket = new DatagramPacket(new byte[maxPacketLength], maxPacketLength);
             try {
                 socket.receive(udpPacket);
             } catch (IOException e) {
@@ -38,7 +39,7 @@ public class Receiver extends Thread {
             }
 
             // deserialize packet
-            var gbnPacket = Packet.deserialize(udpPacket.getData());
+            Packet gbnPacket = Packet.deserialize(udpPacket.getData());
 
             if (gbnPacket.getIsAck()) {
                 // if this is an ack put it in ackQueue
@@ -99,8 +100,8 @@ public class Receiver extends Thread {
                         gbnPacket.getSequenceNum(),
                         (char)gbnPacket.getDataByte()));
                 // then send ack
-                var ackPacket = Packet.createAck(gbnPacket.getSequenceNum());
-                var ackPacketSerialized = ackPacket.serialize();
+                Packet ackPacket = Packet.createAck(gbnPacket.getSequenceNum());
+                byte[] ackPacketSerialized = ackPacket.serialize();
                 udpPacket = new DatagramPacket(ackPacketSerialized, ackPacketSerialized.length, udpPacket.getAddress(), udpPacket.getPort());
                 try {
                     this.socket.send(udpPacket);

@@ -42,7 +42,7 @@ public class GbnNode {
         }
 
         // setup and start receiver
-        var ackQueue = new ArrayBlockingQueue<Integer>(256);
+        ArrayBlockingQueue<Integer> ackQueue = new ArrayBlockingQueue<Integer>(256);
         Receiver receiver;
         if (isDeterministic) {
             receiver = new Receiver(ackQueue, socket, windowSize, n);
@@ -59,7 +59,7 @@ public class GbnNode {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print("node> ");
-            var input = scanner.nextLine();
+            String input = scanner.nextLine();
             String[] parsed = input.split("\\s+");
             if (parsed.length != 2 || !parsed[0].equals("send")) {
                 System.out.println("command format: send <char>");

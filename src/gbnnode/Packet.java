@@ -43,18 +43,18 @@ public class Packet {
 
     // deserialization
     public static Packet deserialize(byte[] bytes) {
-        var sequenceNum = ByteBuffer.wrap(Arrays.copyOfRange(bytes, 0, sequenceNumLength)).getInt();
-        var isAck = false;
+        int sequenceNum = ByteBuffer.wrap(Arrays.copyOfRange(bytes, 0, sequenceNumLength)).getInt();
+        boolean isAck = false;
         if (bytes[sequenceNumLength] == -1) {
             isAck = true;
         }
-        var dataByte = bytes[sequenceNumLength + 1];
+        byte dataByte = bytes[sequenceNumLength + 1];
         return new Packet(sequenceNum, isAck, dataByte);
     }
 
     // serialization
     public byte[] serialize() {
-        var packetBytes = new byte[sequenceNumLength + 2];
+        byte[] packetBytes = new byte[sequenceNumLength + 2];
         arraycopy(ByteBuffer.allocate(sequenceNumLength).putInt(sequenceNum).array(), 0, packetBytes, 0, sequenceNumLength);
         if (isAck) {
             packetBytes[sequenceNumLength] = -1;
