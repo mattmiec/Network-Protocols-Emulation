@@ -1,0 +1,120 @@
+Test sender:
+java GbnNode 1111 2222 5 -p 0
+node> send hello_there_how_are_you?
+[Thu Aug 29 20:11:17 EDT 2019] ack0 received, window moves to 1
+[Thu Aug 29 20:11:17 EDT 2019] packet0 h sent
+[Thu Aug 29 20:11:17 EDT 2019] packet1 e sent
+[Thu Aug 29 20:11:17 EDT 2019] packet2 l sent
+[Thu Aug 29 20:11:17 EDT 2019] ack1 received, window moves to 2
+[Thu Aug 29 20:11:17 EDT 2019] packet3 l sent
+[Thu Aug 29 20:11:17 EDT 2019] packet4 o sent
+[Thu Aug 29 20:11:17 EDT 2019] ack2 received, window moves to 3
+[Thu Aug 29 20:11:17 EDT 2019] ack3 received, window moves to 4
+[Thu Aug 29 20:11:17 EDT 2019] packet4 o sent
+[Thu Aug 29 20:11:17 EDT 2019] packet5 _ sent
+[Thu Aug 29 20:11:17 EDT 2019] packet6 t sent
+[Thu Aug 29 20:11:17 EDT 2019] ack4 received, window moves to 5
+[Thu Aug 29 20:11:17 EDT 2019] packet7 h sent
+[Thu Aug 29 20:11:17 EDT 2019] packet8 e sent
+[Thu Aug 29 20:11:18 EDT 2019] packet5 _ sent
+[Thu Aug 29 20:11:18 EDT 2019] packet6 t sent
+[Thu Aug 29 20:11:18 EDT 2019] ack5 received, window moves to 6
+[Thu Aug 29 20:11:18 EDT 2019] packet7 h sent
+[Thu Aug 29 20:11:18 EDT 2019] ack6 received, window moves to 7
+[Thu Aug 29 20:11:18 EDT 2019] packet8 e sent
+[Thu Aug 29 20:11:18 EDT 2019] packet9 r sent
+[Thu Aug 29 20:11:18 EDT 2019] ack7 received, window moves to 8
+[Thu Aug 29 20:11:18 EDT 2019] ack8 received, window moves to 9
+[Thu Aug 29 20:11:18 EDT 2019] ack9 received, window moves to 10
+[Thu Aug 29 20:11:18 EDT 2019] packet10 e sent
+[Thu Aug 29 20:11:18 EDT 2019] packet11 _ sent
+[Thu Aug 29 20:11:18 EDT 2019] ack10 received, window moves to 11
+[Thu Aug 29 20:11:18 EDT 2019] packet12 h sent
+[Thu Aug 29 20:11:18 EDT 2019] ack11 received, window moves to 12
+[Thu Aug 29 20:11:18 EDT 2019] packet13 o sent
+[Thu Aug 29 20:11:18 EDT 2019] packet14 w sent
+[Thu Aug 29 20:11:18 EDT 2019] ack12 received, window moves to 13
+[Thu Aug 29 20:11:18 EDT 2019] ack13 received, window moves to 14
+[Thu Aug 29 20:11:18 EDT 2019] ack14 received, window moves to 15
+[Thu Aug 29 20:11:19 EDT 2019] packet15 _ sent
+[Thu Aug 29 20:11:19 EDT 2019] packet16 a sent
+[Thu Aug 29 20:11:19 EDT 2019] ack15 received, window moves to 16
+[Thu Aug 29 20:11:19 EDT 2019] packet17 r sent
+[Thu Aug 29 20:11:19 EDT 2019] packet18 e sent
+[Thu Aug 29 20:11:19 EDT 2019] ack16 received, window moves to 17
+[Thu Aug 29 20:11:19 EDT 2019] packet19 _ sent
+[Thu Aug 29 20:11:19 EDT 2019] ack17 received, window moves to 18
+[Thu Aug 29 20:11:19 EDT 2019] packet17 r sent
+[Thu Aug 29 20:11:19 EDT 2019] packet18 e sent
+[Thu Aug 29 20:11:19 EDT 2019] packet19 _ sent
+[Thu Aug 29 20:11:19 EDT 2019] packet20 y sent
+[Thu Aug 29 20:11:19 EDT 2019] packet21 o sent
+[Thu Aug 29 20:11:19 EDT 2019] ack18 received, window moves to 19
+[Thu Aug 29 20:11:19 EDT 2019] ack19 received, window moves to 20
+[Thu Aug 29 20:11:19 EDT 2019] ack20 received, window moves to 21
+[Thu Aug 29 20:11:19 EDT 2019] ack21 received, window moves to 22
+[Thu Aug 29 20:11:19 EDT 2019] packet22 u sent
+[Thu Aug 29 20:11:19 EDT 2019] packet23 ? sent
+[Thu Aug 29 20:11:19 EDT 2019] ack22 received, window moves to 23
+[Thu Aug 29 20:11:19 EDT 2019] ack23 received, window moves to 24
+[Summary] 0/24 packets discarded, loss rate = 0.000000%
+node>
+
+Test receiver:
+java GbnNode 2222 1111 5 -p 0.1
+/usr/lib/jvm/java-10-oracle/bin/java -javaagent:/home/matt/idea-IC-192.6262.58/lib/idea_rt.jar=44047:/home/matt/idea-IC-192.6262.58/bin -Dfile.encoding=UTF-8 -classpath /home/matt/IdeaProjects/gbnnode/out/production/gbnnode gbnnode.GbnNode 2222 1111 5 -p 0.1
+node>
+[Thu Aug 29 20:11:17 EDT 2019] packet0 h received
+[Thu Aug 29 20:11:17 EDT 2019] ACK0 sent, expecting packet 1
+[Thu Aug 29 20:11:17 EDT 2019] packet1 e received
+[Thu Aug 29 20:11:17 EDT 2019] ACK1 sent, expecting packet 2
+[Thu Aug 29 20:11:17 EDT 2019] packet2 l received
+[Thu Aug 29 20:11:17 EDT 2019] ACK2 sent, expecting packet 3
+[Thu Aug 29 20:11:17 EDT 2019] packet3 l received
+[Thu Aug 29 20:11:17 EDT 2019] ACK3 sent, expecting packet 4
+[Thu Aug 29 20:11:17 EDT 2019] packet4 o received
+[Thu Aug 29 20:11:17 EDT 2019] ACK4 sent, expecting packet 5
+[Thu Aug 29 20:11:17 EDT 2019] packet6 t discarded
+[Thu Aug 29 20:11:17 EDT 2019] packet7 h discarded
+[Thu Aug 29 20:11:17 EDT 2019] packet8 e discarded
+[Thu Aug 29 20:11:18 EDT 2019] packet5 _ received
+[Thu Aug 29 20:11:18 EDT 2019] ACK5 sent, expecting packet 6
+[Thu Aug 29 20:11:18 EDT 2019] packet6 t received
+[Thu Aug 29 20:11:18 EDT 2019] ACK6 sent, expecting packet 7
+[Thu Aug 29 20:11:18 EDT 2019] packet7 h received
+[Thu Aug 29 20:11:18 EDT 2019] ACK7 sent, expecting packet 8
+[Thu Aug 29 20:11:18 EDT 2019] packet8 e received
+[Thu Aug 29 20:11:18 EDT 2019] ACK8 sent, expecting packet 9
+[Thu Aug 29 20:11:18 EDT 2019] packet9 r received
+[Thu Aug 29 20:11:18 EDT 2019] ACK9 sent, expecting packet 10
+[Thu Aug 29 20:11:18 EDT 2019] packet10 e received
+[Thu Aug 29 20:11:18 EDT 2019] ACK10 sent, expecting packet 11
+[Thu Aug 29 20:11:18 EDT 2019] packet11 _ received
+[Thu Aug 29 20:11:18 EDT 2019] ACK11 sent, expecting packet 12
+[Thu Aug 29 20:11:18 EDT 2019] packet12 h received
+[Thu Aug 29 20:11:18 EDT 2019] ACK12 sent, expecting packet 13
+[Thu Aug 29 20:11:18 EDT 2019] packet13 o received
+[Thu Aug 29 20:11:18 EDT 2019] ACK13 sent, expecting packet 14
+[Thu Aug 29 20:11:18 EDT 2019] packet14 w received
+[Thu Aug 29 20:11:18 EDT 2019] ACK14 sent, expecting packet 15
+[Thu Aug 29 20:11:19 EDT 2019] packet15 _ received
+[Thu Aug 29 20:11:19 EDT 2019] ACK15 sent, expecting packet 16
+[Thu Aug 29 20:11:19 EDT 2019] packet16 a received
+[Thu Aug 29 20:11:19 EDT 2019] ACK16 sent, expecting packet 17
+[Thu Aug 29 20:11:19 EDT 2019] packet17 r received
+[Thu Aug 29 20:11:19 EDT 2019] ACK17 sent, expecting packet 18
+[Thu Aug 29 20:11:19 EDT 2019] packet19 _ discarded
+[Thu Aug 29 20:11:19 EDT 2019] packet17 r discarded
+[Thu Aug 29 20:11:19 EDT 2019] packet18 e received
+[Thu Aug 29 20:11:19 EDT 2019] ACK18 sent, expecting packet 19
+[Thu Aug 29 20:11:19 EDT 2019] packet19 _ received
+[Thu Aug 29 20:11:19 EDT 2019] ACK19 sent, expecting packet 20
+[Thu Aug 29 20:11:19 EDT 2019] packet20 y received
+[Thu Aug 29 20:11:19 EDT 2019] ACK20 sent, expecting packet 21
+[Thu Aug 29 20:11:19 EDT 2019] packet21 o received
+[Thu Aug 29 20:11:19 EDT 2019] ACK21 sent, expecting packet 22
+[Thu Aug 29 20:11:19 EDT 2019] packet22 u received
+[Thu Aug 29 20:11:19 EDT 2019] ACK22 sent, expecting packet 23
+[Thu Aug 29 20:11:19 EDT 2019] packet23 ? received
+[Thu Aug 29 20:11:19 EDT 2019] ACK23 sent, expecting packet 24
+[Summary] 3/32 packets discarded, loss rate = 0.093750%
