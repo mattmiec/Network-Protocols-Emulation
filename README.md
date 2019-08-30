@@ -9,8 +9,13 @@
 * Built on top of UDP packets/sockets, with a single byte of data transmitted per packet
 * Nodes can be configured to drop packets either deterministically or probabilistically
 
+##How to Build (on Ubuntu 14.04.6 LTS)
+* Exeucte "sudo apt-get install default-jdk"
+* 
+
 ##How to Run
 * Execute "java gbnnode <self-port> <peer-port> <window-size> [ -d <value-of-n> | -p <value-of-p>]"
     * The argument -d <value-of-n> configures the node to drop every nth packet
     * The argument -p <value-of-p> configures the node to drop each packet with probability p
 * Send data with the command "send <string-of-chars>"
+* See test.txt for an example
